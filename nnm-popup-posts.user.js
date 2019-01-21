@@ -177,7 +177,7 @@
 
     async function showAnswers(answers, btn) {
         btn.unbind('click');
-        answers.hide();
+        answers.show();
         btn.text(' свернуть');
         btn.click(e => hideAnswers(answers, btn));
     }
