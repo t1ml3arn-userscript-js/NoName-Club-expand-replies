@@ -170,22 +170,14 @@
 
     async function hideAnswers(answers, btn) {
         btn.unbind('click');
-        if(answers.data('isAnimated') != 1){
-            answers.data('isAnimated', 1);
-            await new Promise((resolve, rej) => answers.hide(0, resolve));
-            answers.data('isAnimated', 0);
-        }
+        answers.hide();
         btn.text(' развернуть');
         btn.click(e => showAnswers(answers, btn));
     }
 
     async function showAnswers(answers, btn) {
         btn.unbind('click');
-        if(answers.data('isAnimated') != 1){
-            answers.data('isAnimated', 1);
-            await new Promise((resolve, rej) => answers.show(0, resolve));
-            answers.data('isAnimated', 0);
-        }
+        answers.hide();
         btn.text(' свернуть');
         btn.click(e => hideAnswers(answers, btn));
     }
