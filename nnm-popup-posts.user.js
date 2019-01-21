@@ -168,14 +168,14 @@
         return parseInt(raw);
     }
 
-    async function hideAnswers(answers, btn) {
+    function hideAnswers(answers, btn) {
         btn.unbind('click');
         answers.hide();
         btn.text(' развернуть');
         btn.click(e => showAnswers(answers, btn));
     }
 
-    async function showAnswers(answers, btn) {
+    function showAnswers(answers, btn) {
         btn.unbind('click');
         answers.show();
         btn.text(' свернуть');
