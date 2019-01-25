@@ -1,5 +1,5 @@
 // ==UserScript==
-// @name NoName Club popup messages
+// @name NoName Club expand replies
 // @namespace https://github.com/T1mL3arn
 // @description Scripting is fun
 // @author My Name
