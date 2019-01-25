@@ -1,10 +1,10 @@
 // ==UserScript==
 // @name NoName Club expand replies
 // @namespace https://github.com/T1mL3arn
-// @description Scripting is fun
-// @author My Name
-// @version 0.1
-// @icon 
+// @description Добавляет в элементы ленты кнопку *развернуть* рядом с колличеством ответов. Кнопка дает развернуть/свернуть ответы к теме. Теперь не нужно переходить на страницу темы, чтобы прочитать комментарии пользователей.
+// @author T1mL3arn
+// @version 1.0
+// @icon https://nnm-club.me/favicon.ico
 // @match *://nnm-club.me/*
 // @match *://nnmclub.to/*
 // @match *://ipv6.nnmclub.to/*
@@ -16,17 +16,12 @@
 // @match https://[2a01:d0:e451:0:6e6e:6d2d:636c:7562]/*
 // @match http://[2001:470:1f15:f1::1113]/*
 // @match nnm-club.i2p
-// @exclude-match 
-// @require 
-// @resource 
 // @run-at document-end
 // @noframes
 // @grant none
 // @license GPLv3 
-// @homepageURL 
-// @supportURL 
-// @downloadURL 
-// @updateURL 
+// @homepageURL https://github.script.repo
+// @supportURL https://github.script.issues
 // ==/UserScript==
 
 (()=>{
