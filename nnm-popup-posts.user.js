@@ -47,6 +47,7 @@
         repliesCount: 0,
         href: '',
         pages: [],
+        pagesHrefs: [],
         container: null
     }
 
@@ -84,7 +85,8 @@
         topics[href] = {
             repliesCount: getRepliesCount(elt),
             href,
-            pages:  []
+            pages:  [],
+            pagesHrefs:  []
         };
         
         let loadAnswersBtn = $('<span>')
@@ -139,15 +141,17 @@
         btn.text(' свернуть');
         btn.click(e => hideAnswers(container, btn));
         
-        return;
+        let pageNav = $(forumDOM).find('span.nav:contains(Страницы:)');
+        if(!pageNav) return;
 
-        ///TODO extract num of pages
-        let pageNav = $('span.nav:contains(Страницы:)');
-        if(pageNav){
-            // first element in set should contain page links
-            let pagesLinks = $(pageNav[0]).filter('a');
-
-        }
+        // first element in set should contain page links
+        let anchors = $(pageNav[0]).find('a');
+        let hrefs = topics[href].pagesHrefs;
+        hrefs.push(href);
+        anchors.each((ind, elt) => hrefs.push(elt.href));
+        // remove link to "next" page
+        if(hrefs.length > 1) hrefs.pop();
+        if(hrefs.length < 2) return;
     }
     
     function blobToText(blob){
