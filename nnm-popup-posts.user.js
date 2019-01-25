@@ -80,6 +80,7 @@
         let goToForumBtn = $(elt).find('a.pcomm[href^=viewtopic.php]');
         
         let href = goToForumBtn[0].href;
+        
         topics[href] = {
             repliesCount: getRepliesCount(elt),
             href,
