@@ -187,6 +187,50 @@
         btn.click(e => hideAnswers(answers, btn));
     }
 
+    class Nav {
+        constructor(document, href, container){
+            this.elt = $('<div>');
+            // parse pages
+            let pageNav = $(document).find('span.nav:contains(Страницы:)');
+            if(!pageNav) return;
+
+            // first element in set should contain page links
+            let anchors = $(pageNav[0]).find('a');
+            let pages = [href].concat(anchors.map((i, elt) => elt.href).get());
+            // remove link to "next" page
+            pages.pop();
+            if(pages.length < 2) return;
+
+            let html = pages.reduce((acc, curr, ind) => acc + `<a href="${curr}">${ind}</a> `, 'Страницы: ');
+            this.elt.append(html).css({"font-weight": "bold", "padding": "10px", "padding-left": "0"});
+            
+            anchors = this.elt.find('a');
+            anchors.first().css("pointer-events", "none");
+            anchors.click(e => $(e.target).css("pointer-events", "none"));
+            anchors.click(async e => {
+                $(e.target).css("pointer-events", "none");
+                e.preventDefault();
+                ///TODO cache results somehow
+                let replies = await getReplies(e.target.href);
+                if(!replies){
+                    $(e.target).css("pointer-events", "auto");
+                    return;
+                }
+
+                anchors.each((i,elt) => $(elt).css("pointer-events", "auto"))
+                $(e.target).css("pointer-events", "none");
+
+                container.find('.forumline')
+                            .before(replies)
+                            .remove();
+            });
+        }
+
+        /** Returns a jquery object */
+        getElement(){
+            return this.elt;
+        }
+    }
 
     async function getReplies(href) {
         let response = await fetch(href);
