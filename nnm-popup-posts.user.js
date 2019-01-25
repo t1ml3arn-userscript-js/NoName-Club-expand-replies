@@ -58,6 +58,15 @@
 
     ///TODO some guards to test if markup is changed ?
 
+    let css = `
+    .nnm-show-replies__a-disabled {
+        text-decoration: none !important;
+        pointer-events: none !important;
+        color: #777 !important;
+    }
+    `;
+    addStyle(css);
+
     // parse current page to find if there are any cards with ANSWERS icon there 
     let cards = $('.pline').has('a.pcomm[href^=viewtopic.php]');
 
@@ -160,20 +169,16 @@
             this.elt.append(html).css({"font-weight": "bold", "padding": "10px", "padding-left": "0"});
             
             anchors = this.elt.find('a');
-            anchors.first().css("pointer-events", "none");
-            anchors.click(e => $(e.target).css("pointer-events", "none"));
+            anchors.first().addClass("nnm-show-replies__a-disabled");
+            anchors.click(e => $(e.target).addClass("nnm-show-replies__a-disabled"));
             anchors.click(async e => {
-                $(e.target).css("pointer-events", "none");
                 e.preventDefault();
                 ///TODO cache results somehow
                 let replies = await getReplies(e.target.href);
-                if(!replies){
-                    $(e.target).css("pointer-events", "auto");
-                    return;
-                }
+                anchors.each((i,elt) => $(elt).removeClass("nnm-show-replies__a-disabled"))
+                if(!replies) return;
 
-                anchors.each((i,elt) => $(elt).css("pointer-events", "auto"))
-                $(e.target).css("pointer-events", "none");
+                $(e.target).addClass("nnm-show-replies__a-disabled");
 
                 container.find('.forumline')
                             .before(replies)
@@ -226,5 +231,15 @@
             .find('.forumline');
 
         return replies;
+    }
+
+    function addStyle(css){
+        let head = document.getElementsByTagName('head')[0];
+        if (head) {
+            let style = document.createElement('style');
+            style.setAttribute('type', 'text/css');
+            style.textContent = css;
+            head.appendChild(style);
+        }
     }
 })();
