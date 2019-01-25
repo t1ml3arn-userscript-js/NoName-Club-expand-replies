@@ -224,6 +224,11 @@
     }
 
     async function getReplies(href) {
+        let pageText = await fetchPageText(href);
+        return !pageText ? null : parseRepliesAndGetElement(pageText);
+    }
+
+    async function fetchPageText(href) {
         let response = await fetch(href);
         if(!response.ok) {
             error(`Cannot fetch forum page "${href}"`);
@@ -231,11 +236,16 @@
         }
 
         let blob = await response.blob();
-        let forumPage = await blobToText(blob);
-        let forumDOM = new DOMParser().parseFromString(forumPage, 'text/html');
+        let pageText = await blobToText(blob);
+
+        return pageText;
+    }
+
+    function parseRepliesAndGetElement(text){
+        let forumDocument = new DOMParser().parseFromString(text, 'text/html');
         
         let replies = 
-        $(forumDOM)
+        $(forumDocument)
             // remove first post
             .find('.forumline > tbody > tr.row1:nth-child(2)')
                 .remove()
