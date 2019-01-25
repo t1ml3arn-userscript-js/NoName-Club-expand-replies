@@ -108,30 +108,14 @@
 
         let href = btn.attr('data-href');
 
-        let response = await fetch(href);
-        if(!response.ok) {
-            error(`Cannot fetch forum page "${href}"`);
+        let text = await fetchPageText(href);
+        if(!text){
             btn.text(' развернуть');
             return;
         }
+        let forumElement = new DOMParser().parseFromString(text, 'text/html');
+        let replies = parseRepliesAndGetElement(forumElement);
 
-        let blob = await response.blob();
-        let forumPage = await blobToText(blob);
-        let forumDOM = new DOMParser().parseFromString(forumPage, 'text/html');
-
-        let replies = 
-        $(forumDOM)
-            // remove first post
-            .find('.forumline > tbody > tr.row1:nth-child(2)')
-                .remove()
-            .end()
-            // remove sorting form
-            .find('.forumline form > span.gensmall')
-                .remove()
-            .end()
-            // return replies
-            .find('.forumline');
-        
         let container = topics[href].container = $('<div>'); 
         
         $(cardElt).after(
@@ -141,7 +125,7 @@
         btn.text(' свернуть');
         btn.click(e => hideAnswers(container, btn));
         
-        let nav = new Nav(forumDOM, href, container);
+        let nav = new Nav(forumElement, href, container);
         container.prepend(nav.getElement());
     }
     
@@ -179,10 +163,10 @@
     }
 
     class Nav {
-        constructor(document, href, container){
+        constructor(documentElement, href, container){
             this.elt = $('<div>');
             // parse pages
-            let pageNav = $(document).find('span.nav:contains(Страницы:)');
+            let pageNav = $(documentElement).find('span.nav:contains(Страницы:)');
             if(!pageNav) return;
 
             // first element in set should contain page links
@@ -231,7 +215,7 @@
     async function fetchPageText(href) {
         let response = await fetch(href);
         if(!response.ok) {
-            error(`Cannot fetch forum page "${href}"`);
+            error(`Cannot fetch page "${href}"`);
             return null;
         }
 
@@ -241,11 +225,15 @@
         return pageText;
     }
 
-    function parseRepliesAndGetElement(text){
-        let forumDocument = new DOMParser().parseFromString(text, 'text/html');
-        
+    function parseRepliesAndGetElement(data){
+        let documentElement;
+        if(typeof data == 'string')
+            documentElement = new DOMParser().parseFromString(data, 'text/html');
+        else
+            documentElement = data;
+
         let replies = 
-        $(forumDocument)
+        $(documentElement)
             // remove first post
             .find('.forumline > tbody > tr.row1:nth-child(2)')
                 .remove()
