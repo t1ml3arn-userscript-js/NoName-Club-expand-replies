@@ -141,17 +141,8 @@
         btn.text(' свернуть');
         btn.click(e => hideAnswers(container, btn));
         
-        let pageNav = $(forumDOM).find('span.nav:contains(Страницы:)');
-        if(!pageNav) return;
-
-        // first element in set should contain page links
-        let anchors = $(pageNav[0]).find('a');
-        let hrefs = topics[href].pagesHrefs;
-        hrefs.push(href);
-        anchors.each((ind, elt) => hrefs.push(elt.href));
-        // remove link to "next" page
-        if(hrefs.length > 1) hrefs.pop();
-        if(hrefs.length < 2) return;
+        let nav = new Nav(forumDOM, href, container);
+        container.prepend(nav.getElement());
     }
     
     function blobToText(blob){
