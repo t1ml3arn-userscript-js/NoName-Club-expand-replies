@@ -187,4 +187,31 @@
         btn.click(e => hideAnswers(answers, btn));
     }
 
+
+    async function getReplies(href) {
+        let response = await fetch(href);
+        if(!response.ok) {
+            error(`Cannot fetch forum page "${href}"`);
+            return null;
+        }
+
+        let blob = await response.blob();
+        let forumPage = await blobToText(blob);
+        let forumDOM = new DOMParser().parseFromString(forumPage, 'text/html');
+        
+        let replies = 
+        $(forumDOM)
+            // remove first post
+            .find('.forumline > tbody > tr.row1:nth-child(2)')
+                .remove()
+            .end()
+            // remove sorting form
+            .find('.forumline form > span.gensmall')
+                .remove()
+            .end()
+            // return replies
+            .find('.forumline');
+
+        return replies;
+    }
 })();
