@@ -37,19 +37,6 @@
     let error = function(){
         console.error(`[ ${GM_info.script.name} ] Error : `, ...arguments);
     }
-    
-    // key-value topic storage
-    // key - link to a forum page
-    // value - elt which holds answers
-    let topics = {};
-
-    let topic = {
-        repliesCount: 0,
-        href: '',
-        pages: [],
-        pagesHrefs: [],
-        container: null
-    }
 
     /**
         TODO test matching ALL mirrors including ipv6, onion, i2p
@@ -78,16 +65,10 @@
 
     // add new button 
     cards.each((ind, elt)=>{
+        if(getRepliesCount(elt) == 0) return;
+
         let goToForumBtn = $(elt).find('a.pcomm[href^=viewtopic.php]');
-        
         let href = goToForumBtn[0].href;
-        
-        topics[href] = {
-            repliesCount: getRepliesCount(elt),
-            href,
-            pages:  [],
-            pagesHrefs:  []
-        };
         
         let loadAnswersBtn = $('<span>')
             .text(' развернуть')
@@ -113,14 +94,13 @@
             btn.text(' развернуть');
             return;
         }
+        
         let forumElement = new DOMParser().parseFromString(text, 'text/html');
         let replies = parseRepliesAndGetElement(forumElement);
 
-        let container = topics[href].container = $('<div>'); 
+        let container = $('<div>').append(replies).css({'max-height': '600px', 'overflow-y': 'auto'}); 
         
-        $(cardElt).after(
-            container.append(replies).css({'max-height': '600px', 'overflow-y': 'auto'})
-        );
+        $(cardElt).after(container);
 
         btn.text(' свернуть');
         btn.click(e => hideAnswers(container, btn));
