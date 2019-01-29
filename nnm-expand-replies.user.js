@@ -38,8 +38,8 @@
 // @noframes
 // @grant none
 // @license GPLv3 
-// @homepageURL https://github.script.repo
-// @supportURL https://github.script.issues
+// @homepageURL https://github.com/t1ml3arn-userscript-js/NoName-Club-expand-replies
+// @supportURL https://github.com/t1ml3arn-userscript-js/NoName-Club-expand-replies/issues
 // ==/UserScript==
 
 (()=>{
