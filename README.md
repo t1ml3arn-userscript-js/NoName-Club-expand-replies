@@ -7,7 +7,7 @@
 ## Как установить скрипт
 
 1. Установить расширение - [Violentmonkey](https://violentmonkey.github.io/get-it/), [Greasemonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) или [Tampermonkey](https://tampermonkey.net/).
-2. Перейти на [страницу установки скрипта](https://ADD_LINK_TO_YOUR_SCRIPT.HERE!) и нажать УСТАНОВИТЬ.
+2. Перейти на [страницу установки скрипта](https://greasyfork.org/en/scripts/377253-noname-club-expand-replies) и нажать УСТАНОВИТЬ.
 
 ## License
 
