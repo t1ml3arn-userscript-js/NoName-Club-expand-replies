@@ -230,18 +230,21 @@
         else
             documentElement = data;
 
-        let replies = 
-        $(documentElement)
-            // remove first post
-            .find('.forumline > tbody > tr.row1:nth-child(2)')
-                .remove()
-            .end()
-            // remove sorting form
-            .find('.forumline form > span.gensmall')
-                .remove()
-            .end()
-            // return replies
-            .find('.forumline');
+        const rem = 'td:nth-child(1) span.nav:contains(Вернуться к началу)';
+
+        let replies = $(documentElement).find('.forumline').eq(0);
+
+        let repliesPostElts = replies.find('tr').filter((i,elt) => $(elt).find(rem).length);
+        repliesPostElts.next().remove();
+        repliesPostElts.remove();
+
+        // remove first post
+        replies.find('tbody > tr.row1:nth-child(2)').remove();
+        // remove sorting form
+        replies.find('form > span.gensmall').remove();    
+        replies.find('tr *:contains(Форма быстрого ответа)').remove();
+        replies.find('tr form[action^="posting.php"]').remove();
+        replies.find('#post_opt').remove();
 
         return replies;
     }
