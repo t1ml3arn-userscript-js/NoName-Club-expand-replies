@@ -21,7 +21,7 @@
 // @namespace https://github.com/T1mL3arn
 // @description Добавляет в элементы ленты кнопку *развернуть* рядом с колличеством ответов. Кнопка дает развернуть/свернуть ответы к теме. Теперь не нужно переходить на страницу темы, чтобы прочитать комментарии пользователей.
 // @author T1mL3arn
-// @version 1.0
+// @version 1.1
 // @icon https://nnm-club.me/favicon.ico
 // @match *://nnm-club.me/*
 // @match *://nnmclub.to/*
