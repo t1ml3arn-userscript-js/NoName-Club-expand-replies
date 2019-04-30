@@ -21,7 +21,7 @@
 // @namespace https://github.com/T1mL3arn
 // @description Добавляет в элементы ленты кнопку *развернуть* рядом с колличеством ответов. Кнопка дает развернуть/свернуть ответы к теме. Теперь не нужно переходить на страницу темы, чтобы прочитать комментарии пользователей.
 // @author T1mL3arn
-// @version 1.1
+// @version 1.2
 // @icon https://nnm-club.me/favicon.ico
 // @match *://nnm-club.me/*
 // @match *://nnmclub.to/*
@@ -81,7 +81,7 @@
     addStyle(css);
 
     // parse current page to find if there are any cards with ANSWERS icon there 
-    let cards = $('.pline').has('a.pcomm[href^=viewtopic.php]');
+    let cards = $('.pline').has('a.pcomm[href^="viewtopic.php"]');
 
     if(cards.length == 0)   return;
 
@@ -89,7 +89,7 @@
     cards.each((ind, elt)=>{
         if(getRepliesCount(elt) == 0) return;
 
-        let goToForumBtn = $(elt).find('a.pcomm[href^=viewtopic.php]');
+        let goToForumBtn = $(elt).find('a.pcomm[href^="viewtopic.php"]');
         let href = goToForumBtn[0].href;
         
         let loadAnswersBtn = $('<span>')
